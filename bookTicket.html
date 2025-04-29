@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Book your bus tickets online with TRANSTECH - easy, fast and secure">
+    <title>Book a Ticket - TRANSTECH Bus Reservation System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset and Base Styles */
+        :root {
+            --primary-color: #ff6600;
+            --primary-hover: #e65c00;
+            --dark-color: #222;
+            --light-color: #fff;
+            --text-color: #333;
+            --border-color: #ddd;
+            --input-bg: #f9f9f9;
+            --shadow-light: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 10px 25px rgba(0, 0, 0, 0.2);
+            --transition: all 0.3s ease;
+            --success-color: #28a745;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, rgba(15, 12, 0, 0.7), rgba(32, 30, 4, 0.8)),
+                url("https://source.unsplash.com/random/1920x1080/?bus");
+            background-size: cover;
+            background-attachment: fixed;
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Container */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            box-shadow: var(--shadow-light);
+            flex: 1;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--primary-color);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        header i {
+            margin-right: 0.5rem;
+            font-size: 2rem;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--light-color);
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            margin: 0 0.5rem;
+            border-radius: 5px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        nav a i {
+            margin-right: 0.5rem;
+        }
+
+        nav a:hover, nav a.active {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Form Sections */
+        .container h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .form input,
+        .form select {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: var(--input-bg);
+            transition: var(--transition);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form input:focus,
+        .form select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.2);
+        }
+
+        .form button {
+            padding: 1rem;
+            background: var(--primary-color);
+            color: var(--light-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form button i {
+            margin-right: 0.5rem;
+        }
+
+        .form button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .btn-back {
+            background-color: #6c757d;
+        }
+
+        .btn-back:hover {
+            background-color: #5a6268;
+        }
+
+        /* Extra Info Sections */
+        .info-sections {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .info-box {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+        }
+
+        .info-box:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .info-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .info-box h3 i {
+            margin-right: 0.5rem;
+            font-size: 1.4rem;
+        }
+
+        .info-box ul {
+            list-style-type: none;
+        }
+
+        .info-box ul li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .info-box ul li i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+            margin-top: 0.3rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-color);
+            color: var(--light-color);
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: auto;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--border-color);
+            z-index: 1;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            height: 3px;
+            background-color: var(--primary-color);
+            z-index: 1;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-step {
+            position: relative;
+            z-index: 2;
+            background-color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--border-color);
+            font-weight: bold;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active {
+            border-color: var(--primary-color);
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .progress-step.completed {
+            border-color: var(--primary-color);
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .progress-step.completed::after {
+            content: '✓';
+        }
+
+        .progress-step-label {
+            position: absolute;
+            top: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        /* Form Sections */
+        .form-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        /* Bus Seat Selection */
+        .seat-selection {
+            margin: 2rem 0;
+        }
+
+        .bus-layout {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            max-width: 450px;
+            margin: 0 auto;
+            padding: 1rem;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .seat {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin: 5px;
+        }
+
+        .seat.available {
+            background-color: var(--light-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .seat.selected {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .seat.unavailable {
+            background-color: #ccc;
+            cursor: not-allowed;
+            color: #999;
+        }
+
+        .seat-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.5rem;
+            border-radius: 3px;
+        }
+
+        .driver-section {
+            grid-column: span 4;
+            text-align: center;
+            padding: 0.5rem;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .aisle {
+            grid-column: span 4;
+            height: 15px;
+        }
+
+        /* Payment Method */
+        .payment-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-method {
+            flex: 1 0 200px;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .payment-method.selected {
+            border-color: var(--primary-color);
+            background-color: rgba(255, 102, 0, 0.05);
+        }
+
+        .payment-method i {
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        /* Summary and Receipt */
+        .trip-summary {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .total-row {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+        }
+
+        /* Loading Animation */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            color: white;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        /* Receipt */
+        .receipt {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow-medium);
+            position: relative;
+        }
+
+        .receipt::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: repeating-linear-gradient(
+                45deg,
+                var(--border-color),
+                var(--border-color) 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px dashed var(--border-color);
+        }
+
+        .receipt-logo {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .receipt-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .receipt-subtitle {
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .receipt-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .receipt-qr {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .receipt-qr img {
+            max-width: 150px;
+            height: auto;
+        }
+
+        .receipt-footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .ticket-reference {
+            background-color: #f3f3f3;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin: 1.5rem 0;
+            border-radius: 5px;
+        }
+
+        .success-message {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            color: var(--success-color);
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .success-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--success-color);
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn-container button {
+            padding: 0.75rem 1.5rem;
+            background: var(--primary-color);
+            color: var(--light-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-container button i {
+            margin-right: 0.5rem;
+        }
+
+        .btn-container button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        /* Checkbox styling */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .checkbox-container input {
+            margin-right: 0.5rem;
+        }
+
+        .checkbox-container a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .checkbox-container a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .form {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .form button {
+                grid-column: span 2;
+            }
+
+            .button-group {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav a {
+                margin: 0.25rem 0;
+                width: 80%;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 1.5rem;
+                margin: 1rem auto;
+            }
+
+            .container h2 {
+                font-size: 1.5rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .bus-layout {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .driver-section, .aisle {
+                grid-column: span 2;
+            }
+
+            .btn-container {
+                flex-direction: column;
+            }
+
+            .btn-container button {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            .form input,
+            .form select,
+            .form button {
+                padding: 0.7rem;
+            }
+
+            .container {
+                padding: 1rem;
+                width: 95%;
+            }
+
+            .progress-step-label {
+                font-size: 0.7rem;
+            }
+
+            .info-sections {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Focus states for accessibility */
+        a:focus,
+        button:focus,
+        input:focus,
+        select:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .container,
+            .info-box {
+                background: rgba(40, 40, 40, 0.95);
+                color: #eee;
+            }
+
+            .form input,
+            .form select {
+                background-color: rgba(60, 60, 60, 0.8);
+                color: #eee;
+                border-color: #555;
+            }
+
+            .form label,
+            .container h2 {
+                color: #eee;
+            }
+
+            .progress-step {
+                background-color: #333;
+            }
+
+            .trip-summary, .bus-layout {
+                background-color: #333;
+            }
+
+            .receipt {
+                background-color: #222;
+                color: #eee;
+            }
+
+            .ticket-reference {
+                background-color: #333;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner-container">
+            <div class="spinner"></div>
+            <div class="loading-text">Processing your request...</div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <h1><i class="fa-solid fa-bus"></i> Book a Ticket</h1>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html"><i class="fa-solid fa-home"></i> Home</a>
+        <a href="bookTicket.html" class="active"><i class="fa-solid fa-ticket"></i> Book Ticket</a>
+        <a href="schedule.html"><i class="fa-solid fa-calendar-alt"></i> View Schedule</a>
+        <a href="manageReservations.html"><i class="fa-solid fa-user-cog"></i> Manage Reservations</a>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="container">
+        <h2>Book Your Bus Ticket</h2>
+        
+        <!-- Progress Bar -->
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-step active" id="step1">
+                1
+                <span class="progress-step-label">Trip Info</span>
+            </div>
+            <div class="progress-step" id="step2">
+                2
+                <span class="progress-step-label">Passenger Details</span>
+            </div>
+            <div class="progress-step" id="step3">
+                3
+                <span class="progress-step-label">Payment</span>
+            </div>
+            <div class="progress-step" id="step4">
+                4
+                <span class="progress-step-label">Confirmation</span>
+            </div>
+        </div>
+
+        <!-- Trip Details Form -->
+        <div class="form-section active" id="tripDetails">
+            <form class="form" id="tripForm">
+                <div class="form-group">
+                    <label for="departure"><i class="fa-solid fa-location-dot"></i> Departure Location:</label>
+                    <input type="text" id="departure" placeholder="Enter departure city" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="destination"><i class="fa-solid fa-location-arrow"></i> Destination:</label>
+                    <input type="text" id="destination" placeholder="Enter destination city" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="date"><i class="fa-solid fa-calendar-day"></i> Travel Date:</label>
+                    <input type="date" id="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="trip"><i class="fa-solid fa-clock"></i> Select Trip:</label>
+                    <select id="trip" required>
+                        <option value="">Select a time</option>
+                        <option value="Morning Express (07:00)">Morning Express (07:00) - $35</option>
+                        <option value="Day Shuttle (12:30)">Day Shuttle (12:30) - $30</option>
+                        <option value="Evening Coach (18:00)">Evening Coach (18:00) - $32</option>
+                        <option value="Night Liner (22:00)">Night Liner (22:00) - $40</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="seats"><i class="fa-solid fa-chair"></i> Number of Seats:</label>
+                    <input type="number" id="seats" min="1" max="10" value="1" required>
+                </div>
+
+                <button type="submit" id="tripNextBtn"><i class="fa-solid fa-arrow-right"></i> Continue to Passenger Details</button>
+            </form>
+
+            <!-- Trip Information -->
+            <div class="info-sections">
+                <div class="info-box">
+                    <h3><i class="fa-solid fa-circle-info"></i> Booking Information</h3>
+                    <ul>
+                        <li><i class="fa-solid fa-check"></i> Free cancellation up to 24 hours before departure</li>
+                        <li><i class="fa-solid fa-check"></i> Flexible rescheduling options available</li>
+                        <li><i class="fa-solid fa-check"></i> Instant confirmation via email</li>
+                        <li><i class="fa-solid fa-check"></i> Maximum 10 seats per booking</li>
+                    </ul>
+                </div>
+                <div class="info-box">
+                    <h3><i class="fa-solid fa-shield-alt"></i> Safety Measures</h3>
+                    <ul>
+                        <li><i class="fa-solid fa-check"></i> Regular vehicle sanitization</li>
+                        <li><i class="fa-solid fa-check"></i> Temperature checks for all passengers</li>
+                        <li><i class="fa-solid fa-check"></i> Trained drivers following safety protocols</li>
+                        <li><i class="fa-solid fa-check"></i> 24/7 travel assistance</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passenger Details Form -->
+        <div class="form-section" id="passengerDetails">
+            <form class="form" id="passengerForm">
+                <div class="form-group">
+                    <label for="fullName"><i class="fa-solid fa-user"></i> Full Name:</label>
+                    <input type="text" id="fullName" placeholder="Enter full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email"><i class="fa-solid fa-envelope"></i> Email Address:</label>
+                    <input type="email" id="email" placeholder="Enter email address" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone"><i class="fa-solid fa-phone"></i> Phone Number:</label>
+                    <input type="tel" id="phone" placeholder="Enter phone number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="idType"><i class="fa-solid fa-id-card"></i> ID Type:</label>
+                    <select id="idType" required>
+                        <option value="">Select ID type</option>
+                        <option value="Passport">Passport</option>
+                        <option value="National ID">National ID</option>
+                        <option value="Driver's License">Driver's License</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="idNumber"><i class="fa-solid fa-fingerprint"></i> ID Number:</label>
+                    <input type="text" id="idNumber" placeholder="Enter ID number" required>
+                </div>
+
+                <div class="seat-selection">
+                    <h3><i class="fa-solid fa-couch"></i> Select Your Seat(s)</h3>
+                    <div class="bus-layout">
+                        <div class="driver-section">Driver</div>
+                        <div class="seat available" data-seat="1A">1A</div>
+                        <div class="seat available" data-seat="1B">1B</div>
+                        <div class="seat unavailable" data-seat="1C">1C</div>
+                        <div class="seat available" data-seat="1D">1D</div>
+                        
+                        <div class="seat available" data-seat="2A">2A</div>
+                        <div class="seat available" data-seat="2B">2B</div>
+                        <div class="seat available" data-seat="2C">2C</div>
+                        <div class="seat available" data-seat="2D">2D</div>
+                        
+                        <div class="seat unavailable" data-seat="3A">3A</div>
+                        <div class="seat available" data-seat="3B">3B</div>
+                        <div class="seat available" data-seat="3C">3C</div>
+                        <div class="seat available" data-seat="3D">3D</div>
+                        
+                        <div class="aisle"></div>
+                        
+                        <div class="seat available" data-seat="4A">4A</div>
+                        <div class="seat available" data-seat="4B">4B</div>
+                        <div class="seat available" data-seat="4C">4C</div>
+                        <div class="seat unavailable" data-seat="4D">4D</div>
+                        
+                        <div class="seat available" data-seat="5A">5A</div>
+                        <div class="seat available" data-seat="5B">5B</div>
+                        <div class="seat available" data-seat="5C">5C</div>
+                        <div class="seat available" data-seat="5D">5D</div>
+                    </div>
+                    
+                    <div class="seat-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: white; border: 1px solid #ddd;"></div>
+                            <span>Available</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: var(--primary-color);"></div>
+                            <span>Selected</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #ccc;"></div>
+                            <span>Unavailable</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn-back" id="passengerBackBtn">
+                        <i class="fa-solid fa-arrow-left"></i> Back to Trip Details
+                    </button>
+                    <button type="submit" id="passengerNextBtn">
+                        <i class="fa-solid fa-arrow-right"></i> Continue to Payment
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Payment Form -->
+        <div class="form-section" id="paymentForm">
+            <form class="form" id="payForm">
+                <div class="trip-summary">
+                    <h3><i class="fa-solid fa-receipt"></i> Trip Summary</h3>
+                    <div class="summary-row">
+                        <span>Route:</span>
+                        <span id="summaryRoute">New York to Washington DC</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Date & Time:</span>
+                        <span id="summaryDateTime">March 25, 2025 - 07:00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Selected Seats:</span>
+                        <span id="summarySeats">2A, 2B</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Number of Tickets:</span>
+                        <span id="summaryTickets">2</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Price per Ticket:</span>
+                        <span id="summaryPrice">$35.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Service Fee:</span>
+                        <span id="summaryFee">$5.00</span>
+                    </div>
+                    <div class="summary-row total-row">
+                        <span>Total Amount:</span>
+                        <span id="summaryTotal">$75.00</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-credit-card"></i> Select Payment Method:</label>
+                    <div class="payment-methods">
+                        <div class="payment-method" data-method="creditCard">
+                            <i class="fa-solid fa-credit-card"></i>
+                            <span>Credit/Debit Card</span>
+                        </div>
+                        <div class="payment-method" data-method="paypal">
+                            <i class="fa-brands fa-paypal"></i>
+                            <span>PayPal</span>
+                        </div>
+                        <div class="payment-method" data-method="applepay">
+                            <i class="fa-brands fa-apple-pay"></i>
+                            <span>Apple Pay</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Credit Card Payment -->
+                <div id="creditCardPayment">
+                    <div class="form-group">
+                        <label for="cardNumber"><i class="fa-solid fa-credit-card"></i> Card Number:</label>
+                        <input type="text" id="cardNumber" placeholder="XXXX XXXX XXXX XXXX" maxlength="19" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cardName"><i class="fa-solid fa-user"></i> Cardholder Name:</label>
+                        <input type="text" id="cardName" placeholder="Name on card" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="expiry"><i class="fa-solid fa-calendar"></i> Expiry Date:</label>
+                        <input type="text" id="expiry" placeholder="MM/YY" maxlength="5" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cvv"><i class="fa-solid fa-lock"></i> CVV:</label>
+                        <input type="text" id="cvv" placeholder="XXX" maxlength="3" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="promoCode"><i class="fa-solid fa-tag"></i> Promo Code (Optional):</label>
+                    <input type="text" id="promoCode" placeholder="Enter promo code if available">
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="termsCheck" required>
+                        <span class="checkmark"></span>
+                        I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn-back" id="paymentBackBtn">
+                        <i class="fa-solid fa-arrow-left"></i> Back to Passenger Details
+                    </button>
+                    <button type="submit" id="paymentConfirmBtn">
+                        <i class="fa-solid fa-check-circle"></i> Confirm Payment
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Confirmation -->
+        <div class="form-section" id="confirmation">
+            <div class="success-message">
+                <i class="fa-solid fa-circle-check success-icon"></i>
+                <h3 class="success-title">Booking Confirmed!</h3>
+                <p>Your booking has been successfully completed. A confirmation email with your ticket details has been sent to your registered email address.</p>
+            </div>
+
+            <div class="receipt">
+                <div class="receipt-header">
+                    <div class="receipt-logo">
+                        <i class="fa-solid fa-bus"></i>
+                    </div>
+                    <h3 class="receipt-title">TRANSTECH Bus Reservation</h3>
+                    <p class="receipt-subtitle">Official E-Ticket</p>
+                </div>
+
+                <div class="receipt-details">
+                    <div class="summary-row">
+                        <span>Passenger Name:</span>
+                        <span id="receiptName">John Smith</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Route:</span>
+                        <span id="receiptRoute">New York to Washington DC</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Travel Date:</span>
+                        <span id="receiptDate">March 25, 2025</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Departure Time:</span>
+                        <span id="receiptTime">07:00 AM</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Seat Number(s):</span>
+                        <span id="receiptSeats">2A, 2B</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Bus Type:</span>
+                        <span>Express Luxury</span>
+                    </div>
+                </div>
+
+                <div class="ticket-reference">
+                    <span>Ticket #: </span>
+                    <span id="ticketReference">TT-35492-JD</span>
+                </div>
+
+                <div class="receipt-qr">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TRANSTECH-TICKET-35492" alt="QR Code">
+                    <p>Scan this QR code at the terminal</p>
+                </div>
+
+                <div class="receipt-footer">
+                    <p>Thank you for choosing TRANSTECH Bus Services</p>
+                    <p>For any assistance, call our 24/7 helpline: 1-800-555-TRANS</p>
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button type="button" id="downloadTicket">
+                    <i class="fa-solid fa-download"></i> Download Ticket
+                </button>
+                <button type="button" id="emailTicket">
+                    <i class="fa-solid fa-envelope"></i> Email Ticket
+                </button>
+                <button type="button" id="newBooking">
+                    <i class="fa-solid fa-plus"></i> New Booking
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 TRANSTECH Bus Services. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Progress Step Navigation
+            const progressSteps = document.querySelectorAll('.progress-step');
+            const formSections = document.querySelectorAll('.form-section');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            
+            // Forms
+            const tripForm = document.getElementById('tripForm');
+            const passengerForm = document.getElementById('passengerForm');
+            const payForm = document.getElementById('payForm');
+            
+            // Buttons
+            const tripNextBtn = document.getElementById('tripNextBtn');
+            const passengerBackBtn = document.getElementById('passengerBackBtn');
+            const passengerNextBtn = document.getElementById('passengerNextBtn');
+            const paymentBackBtn = document.getElementById('paymentBackBtn');
+            const paymentConfirmBtn = document.getElementById('paymentConfirmBtn');
+            const newBookingBtn = document.getElementById('newBooking');
+            
+            // Variables
+            let maxSeats = parseInt(document.getElementById('seats').value);
+            let selectedSeatsCount = 0;
+            
+            // Update progress bar width
+            function updateProgressBar(step) {
+                const progressBar = document.getElementById('progressBar');
+                const width = `${(step) / (progressSteps.length - 1) * 100}%`;
+                progressBar.style.setProperty('--progress-width', width);
+                
+                progressSteps.forEach((stepEl, idx) => {
+                    if (idx < step) {
+                        stepEl.classList.add('completed');
+                        stepEl.classList.remove('active');
+                    } else if (idx === step) {
+                        stepEl.classList.add('active');
+                        stepEl.classList.remove('completed');
+                    } else {
+                        stepEl.classList.remove('active', 'completed');
+                    }
+                });
+            }
+            
+            // Show specific form section
+            function showSection(sectionIndex) {
+                formSections.forEach((section, idx) => {
+                    if (idx === sectionIndex) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+                
+                updateProgressBar(sectionIndex);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            
+            // Trip Form Submit
+            tripForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                showSection(1); // Show passenger details
+            });
+            
+            // Passenger Form Navigation
+            passengerBackBtn.addEventListener('click', function() {
+                showSection(0); // Back to trip details
+            });
+            
+            passengerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate seat selection
+                const selectedSeats = document.querySelectorAll('.seat.selected');
+                if (selectedSeats.length === 0) {
+                    alert('Please select at least one seat.');
+                    return;
+                }
+                
+                if (selectedSeats.length !== parseInt(document.getElementById('seats').value)) {
+                    alert(`Please select exactly ${document.getElementById('seats').value} seat(s).`);
+                    return;
+                }
+                
+                // Update summary information
+                document.getElementById('summaryRoute').textContent = 
+                    `${document.getElementById('departure').value} to ${document.getElementById('destination').value}`;
+                
+                const tripValue = document.getElementById('trip').value;
+                const tripTime = tripValue.includes('(') ? tripValue.split('(')[1].split(')')[0] : '';
+                
+                document.getElementById('summaryDateTime').textContent = 
+                    `${document.getElementById('date').value} - ${tripTime}`;
+                
+                const seatElements = document.querySelectorAll('.seat.selected');
+                const selectedSeatsText = Array.from(seatElements).map(seat => seat.dataset.seat).join(', ');
+                document.getElementById('summarySeats').textContent = selectedSeatsText || 'None selected';
+                
+                const numTickets = document.getElementById('seats').value;
+                document.getElementById('summaryTickets').textContent = numTickets;
+                
+                const tripPrice = tripValue.includes('$') ? tripValue.split('$')[1] : '35';
+                document.getElementById('summaryPrice').textContent = `$${tripPrice}`;
+                
+                const serviceFee = 5;
+                document.getElementById('summaryFee').textContent = `$${serviceFee.toFixed(2)}`;
+                
+                const totalAmount = (parseFloat(tripPrice) * parseInt(numTickets)) + serviceFee;
+                document.getElementById('summaryTotal').textContent = `$${totalAmount.toFixed(2)}`;
+                
+                showSection(2); // Show payment form
+            });
+            
+            // Payment Form Navigation
+            paymentBackBtn.addEventListener('click', function() {
+                showSection(1); // Back to passenger details
+            });
+            
+            payForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate terms checkbox
+                if (!document.getElementById('termsCheck').checked) {
+                    alert('Please agree to the Terms & Conditions to proceed.');
+                    return;
+                }
+                
+                // Show loading overlay
+                loadingOverlay.classList.add('show');
+                
+                // Simulate payment processing
+                setTimeout(function() {
+                    loadingOverlay.classList.remove('show');
+                    
+                    // Update receipt information
+                    document.getElementById('receiptName').textContent = document.getElementById('fullName').value;
+                    document.getElementById('receiptRoute').textContent = document.getElementById('summaryRoute').textContent;
+                    document.getElementById('receiptDate').textContent = document.getElementById('date').value;
+                    
+                    const tripValue = document.getElementById('trip').value;
+                    const tripTime = tripValue.includes('(') ? tripValue.split('(')[1].split(')')[0] : '';
+                    document.getElementById('receiptTime').textContent = tripTime;
+                    
+                    document.getElementById('receiptSeats').textContent = document.getElementById('summarySeats').textContent;
+                    
+                    // Generate random ticket reference
+                    const fullName = document.getElementById('fullName').value;
+                    const initials = fullName.split(' ').map(name => name.charAt(0)).join('');
+                    const ticketRef = `TT-${Math.floor(10000 + Math.random() * 90000)}-${initials}`;
+                    document.getElementById('ticketReference').textContent = ticketRef;
+                    
+                    showSection(3); // Show confirmation
+                }, 2000);
+            });
+            
+            // Payment Method Selection
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', function() {
+                    paymentMethods.forEach(m => m.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    // Show appropriate payment form
+                    if (this.dataset.method === 'creditCard') {
+                        document.getElementById('creditCardPayment').style.display = 'block';
+                    } else {
+                        document.getElementById('creditCardPayment').style.display = 'none';
+                    }
+                });
+            });
+            
+            // Select first payment method by default
+            if (paymentMethods.length > 0) {
+                paymentMethods[0].click();
+            }
+            
+            // Seat Selection
+            const availableSeats = document.querySelectorAll('.seat.available');
+            
+            availableSeats.forEach(seat => {
+                seat.addEventListener('click', function() {
+                    if (this.classList.contains('selected')) {
+                        this.classList.remove('selected');
+                        selectedSeatsCount--;
+                    } else {
+                        if (selectedSeatsCount < maxSeats) {
+                            this.classList.add('selected');
+                            selectedSeatsCount++;
+                        } else {
+                            alert(`You can only select ${maxSeats} seats. Please deselect a seat to choose another.`);
+                        }
+                    }
+                });
+            });
+            
+            // Update max seats when number of seats changes
+            document.getElementById('seats').addEventListener('change', function() {
+                maxSeats = parseInt(this.value);
+                
+                // Deselect seats if needed
+                if (selectedSeatsCount > maxSeats) {
+                    const selectedSeats = document.querySelectorAll('.seat.selected');
+                    for (let i = maxSeats; i < selectedSeatsCount; i++) {
+                        selectedSeats[i].classList.remove('selected');
+                    }
+                    selectedSeatsCount = maxSeats;
+                }
+            });
+            
+            // New Booking Button
+            if (newBookingBtn) {
+                newBookingBtn.addEventListener('click', function() {
+                    // Reset forms
+                    tripForm.reset();
+                    passengerForm.reset();
+                    payForm.reset();
+                    
+                    // Deselect all seats
+                    document.querySelectorAll('.seat.selected').forEach(seat => {
+                        seat.classList.remove('selected');
+                    });
+                    
+                    selectedSeatsCount = 0;
+                    
+                    // Return to the first step
+                    showSection(0);
+                });
+            }
+            
+            // Download Ticket Functionality
+            const downloadTicketBtn = document.getElementById('downloadTicket');
+            if (downloadTicketBtn) {
+                downloadTicketBtn.addEventListener('click', function() {
+                    alert('Ticket download started. Please check your downloads folder.');
+                });
+            }
+            
+            // Email Ticket Functionality
+            const emailTicketBtn = document.getElementById('emailTicket');
+            if (emailTicketBtn) {
+                emailTicketBtn.addEventListener('click', function() {
+                    alert(`Ticket has been emailed to ${document.getElementById('email').value}`);
+                });
+            }
+            
+            // Format card number with spaces
+            const cardNumberInput = document.getElementById('cardNumber');
+            if (cardNumberInput) {
+                cardNumberInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+                    let formattedValue = '';
+                    
+                    for (let i = 0; i < value.length; i++) {
+                        if (i > 0 && i % 4 === 0) {
+                            formattedValue += ' ';
+                        }
+                        formattedValue += value[i];
+                    }
+                    
+                    e.target.value = formattedValue;
+                });
+            }
+            
+            // Format expiry date
+            const expiryInput = document.getElementById('expiry');
+            if (expiryInput) {
+                expiryInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    
+                    if (value.length > 2) {
+                        value = value.slice(0, 2) + '/' + value.slice(2, 4);
+                    }
+                    
+                    e.target.value = value;
+                });
+            }
+            
+            // Set default date to tomorrow
+            const dateInput = document.getElementById('date');
+            if (dateInput) {
+                const tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                const formattedDate = tomorrow.toISOString().split('T')[0];
+                dateInput.value = formattedDate;
+                dateInput.min = formattedDate;
+            }
+            
+            // Fix progress bar styling
+            const progressBar = document.querySelector('.progress-bar');
+            progressBar.style.setProperty('--progress-width', '0%');
+            
+            // Add animation to progress bar
+            function updateProgressBarWidth(step) {
+                const width = `${(step) / (progressSteps.length - 1) * 100}%`;
+                progressBar.style.setProperty('--progress-width', width);
+            }
+            
+            // Update progress bar when showing a section
+            function updateProgress(step) {
+                updateProgressBarWidth(step);
+                
+                progressSteps.forEach((stepEl, idx) => {
+                    if (idx < step) {
+                        stepEl.classList.add('completed');
+                        stepEl.classList.remove('active');
+                    } else if (idx === step) {
+                        stepEl.classList.add('active');
+                        stepEl.classList.remove('completed');
+                    } else {
+                        stepEl.classList.remove('active', 'completed');
+                    }
+                });
+            }
+            
+            // Initialize the first step
+            updateProgress(0);
+        });
+    </script>
+</body>
+</html>

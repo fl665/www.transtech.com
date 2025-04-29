@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Reservations - Bus Reservation System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1><i class="fa-solid fa-user-cog"></i> Manage Reservations</h1>
+    </header>
+
+    <nav>
+        <a href="index.html"><i class="fa-solid fa-home"></i> Home</a>
+        <a href="bookTicket.html"><i class="fa-solid fa-ticket"></i> Book Ticket</a>
+        <a href="schedule.html"><i class="fa-solid fa-calendar-alt"></i> View Schedule</a>
+        <a href="manageReservations.html"><i class="fa-solid fa-user-cog"></i> Manage Reservations</a>
+    </nav>
+
+    <section class="container">
+        <h2>Your Reservations</h2>
+        <table class="reservation-table">
+            <tr>
+                <th>Ticket ID</th>
+                <th>Departure</th>
+                <th>Destination</th>
+                <th>Travel Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            <tr>
+                <td>#12345</td>
+                <td>Lusaka</td>
+                <td>Ndola</td>
+                <td>2025-04-10</td>
+                <td>Confirmed</td>
+                <td>
+                    <button class="cancel-btn"><i class="fa-solid fa-times"></i> Cancel</button>
+                </td>
+            </tr>
+            <tr>
+                <td>#67890</td>
+                <td>Kitwe</td>
+                <td>Livingstone</td>
+                <td>2025-04-12</td>
+                <td>Pending</td>
+                <td>
+                    <button class="cancel-btn"><i class="fa-solid fa-times"></i> Cancel</button>
+                </td>
+            </tr>
+        </table>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Bus Reservation System. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
